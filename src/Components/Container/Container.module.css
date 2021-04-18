@@ -3,3 +3,14 @@
   margin-right: auto;
   margin-left: auto;
 }
+
+.nav {
+  display: flex;
+  list-style: none;
+  background-color: rgb(221, 245, 220);
+  padding: 15px;
+}
+
+.nav_item {
+  margin-right: 15px;
+}

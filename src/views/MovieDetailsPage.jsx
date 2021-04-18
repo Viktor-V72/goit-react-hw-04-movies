@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import { Route, Link, Switch } from 'react-router-dom';
+import { searchDetails } from '../Components/apiService/apiService';
+import Cast from '../Components/Cast/Cast';
+import Reviews from '../Components/Reviews/Reviews';
 
-const Api_Key = '0e6eebd27dfd68a7c4ec96f04756cc6c';
 const imgUrl = 'https://www.themoviedb.org/t/p/w220_and_h330_face';
 
 class MovieDetailsPage extends Component {
@@ -17,18 +19,19 @@ class MovieDetailsPage extends Component {
 
   async componentDidMount() {
     const { movieId } = this.props.match.params;
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${Api_Key}&language=en-US`,
-    );
 
-    this.setState({ ...response.data });
+    searchDetails(movieId).then(data => this.setState({ ...data }));
   }
+
+  handleGoBack = () => {
+    const { location, history } = this.props;
+    history.push(location?.state?.from || '/movies');
+  };
 
   render() {
     const {
       name,
       title,
-      id,
       poster_path,
       overview,
       release_date,
@@ -36,11 +39,36 @@ class MovieDetailsPage extends Component {
     } = this.state;
     return (
       <>
-        <h1>Страница одной книги {this.props.match.params.movieId}</h1>
+        <button type="button" onClick={this.handleGoBack}>
+          Go Back
+        </button>
+        <h1>{title || name}</h1>
         <img src={imgUrl + poster_path} alt="" />
-        <h2>{title || name}</h2>
-        <p>Год: {release_date || first_air_date}</p>
+        <p> {release_date || first_air_date}</p>
         <p>{overview}</p>
+
+        <ul>
+          <li>
+            <Link to={`${this.props.match.url}/cast`}>Cast</Link>
+          </li>
+          <li>
+            {' '}
+            <Link to={`${this.props.match.url}/reviews`}>Reviews</Link>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route
+            exact
+            path={`${this.props.match.path}/cast`}
+            component={Cast}
+          />
+          <Route
+            exact
+            path={`${this.props.match.path}/reviews`}
+            component={Reviews}
+          />
+        </Switch>
       </>
     );
   }
