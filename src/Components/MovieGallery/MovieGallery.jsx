@@ -31,7 +31,6 @@ MovieGallery.propTypes = {
     PropTypes.shape({
       poster_path: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
     }),
   ),

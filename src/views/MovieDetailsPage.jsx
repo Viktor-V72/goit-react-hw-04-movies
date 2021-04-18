@@ -49,11 +49,23 @@ class MovieDetailsPage extends Component {
 
         <ul>
           <li>
-            <Link to={`${this.props.match.url}/cast`}>Cast</Link>
+            <Link
+              to={{
+                pathname: `${this.props.match.url}/cast`,
+              }}
+            >
+              Cast
+            </Link>
           </li>
           <li>
             {' '}
-            <Link to={`${this.props.match.url}/reviews`}>Reviews</Link>
+            <Link
+              to={{
+                pathname: `${this.props.match.url}/reviews`,
+              }}
+            >
+              Reviews
+            </Link>
           </li>
         </ul>
 
